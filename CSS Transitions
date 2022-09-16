@@ -1,0 +1,7 @@
+.card:hover {
+	background-color: LightSteelBlue;
+	color: white;
+	cursor: pointer;
+	transform: scale(1.09);
+	transition: all 1s ease;
+}
