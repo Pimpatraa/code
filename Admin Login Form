@@ -1,0 +1,19 @@
+if(isset($_POST['submit']))
+{
+$username = $_POST['username'];
+$password = $_POST['password'];
+
+$res = mysqli_query($conn,"select* from tbl_admin where username='$username'and password='$password'");
+$result=mysqli_fetch_array($res);
+if($result)
+{
+echo "You are login Successfully ";
+header("location: admin_page.php");   
+   
+}
+else
+{
+   $error[] = 'incorrect username or password!';
+}
+}
+?>
