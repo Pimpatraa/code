@@ -1,0 +1,74 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8"  />
+        <meta name="description"  content="Assignment 2"/>
+        <meta name="keywords"  content="HTML, CSS, JavaScript"/>
+        <meta name="author"  content="Phuong Linh Le"/>
+        <title>Display Admin</title>
+        <!--link to css-->
+        <link rel="stylesheet" href="styles/style.css">
+        <!--link to boxicons-->
+        <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+        <!--link to icons-->
+        <script src='https://kit.fontawesome.com/8c3475ab7a.js' crossorigin='anonymous'></script>
+    </head>
+<body>
+<?php 
+    include("header.inc");
+?>
+
+    <h1 class="heading"><strong>Manage Admin</strong></h1>
+    <br />
+    <a href="add_admin.php" class="btn-primary">Add Admin</a>
+    <br /><br />
+    <!--<table class="admin-table">-->
+
+<?php
+    require_once ("settings.php"); //connection info
+    
+    $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
+    // Checks if connection is successful
+    if (!$conn) {
+        // Displays an error message
+        echo "<p>Database connection failure</p>";
+    } else {
+        // Upon successful connection
+
+        $sql_table="tbl_admin";
+
+        // Set up the SQL command to query or add data into the table
+        $query = "SELECT  full_name, username FROM $sql_table ORDER BY id";
+
+        // Execute the query and store result into the result pointer
+        $result = mysqli_query($conn, $query);
+
+        // Checks if the execution was successful
+        if (!$result) {
+            echo "<p>Something is wrong with ", $query, "</p>";
+        } else {
+            //Display the retrieved records
+                echo "<table border=\"1\" class = \"receipt_table\">\n";
+                echo "<tr>\n "
+                    ."<th scope=\"col\">Full Name</th>\n "
+                    ."<th scope=\"col\">Username</th>\n "
+                    ."</tr>\n ";
+                while ($row = mysqli_fetch_assoc($result)){
+                    echo "<tr>\n ";
+                    echo "<td>",$row["full_name"],"</td>\n ";
+                    echo "<td>",$row["username"],"</td>\n ";
+                    echo "</tr>\n ";
+                }
+            
+            echo "</table>\n ";
+        // Frees up the memory, after using the result pointer
+            mysqli_free_result($result);
+        } // if successful query operation
+
+        // close the database connection
+        mysqli_close($conn);
+    } //if successful database connection   
+
+    include("footer.inc");
+?>
+</body>
+</html>
